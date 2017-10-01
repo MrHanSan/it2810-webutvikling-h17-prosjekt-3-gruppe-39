@@ -7,8 +7,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="348"
-   height="411"
+   width="314.57001"
+   height="384.32999"
    version="1.1"
    id="svg27"
    sodipodi:docname="39logo.svg"
@@ -21,7 +21,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -40,16 +40,17 @@
      inkscape:window-height="824"
      id="namedview29"
      showgrid="false"
-     inkscape:zoom="1"
-     inkscape:cx="111.5"
-     inkscape:cy="129.27778"
+     inkscape:zoom="1.5"
+     inkscape:cx="188.99681"
+     inkscape:cy="193.03962"
      inkscape:window-x="327"
      inkscape:window-y="166"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <g
      id="g25"
-     style="display:inline">
+     style="display:inline"
+     transform="translate(-16.452,-9.07763)">
     <title
        id="title7">Layer 1</title>
     <g
@@ -161,24 +162,27 @@
         <path
            d="m 106.78849,321.47948 q -14.84909,0 -26.484568,-3.87849 -11.524665,-3.8785 -16.84374,-8.97594 l 6.205588,-16.28967 q 15.624785,12.30036 37.23353,12.30036 16.62211,0 26.37375,-8.20024 9.86245,-8.31106 9.86245,-23.16015 0,-8.08942 -2.54872,-14.07338 -2.43791,-6.09478 -6.64884,-9.75164 -4.10012,-3.76768 -10.63816,-5.98396 -6.42721,-2.3271 -13.29768,-3.21361 -6.75966,-0.99733 -15.735604,-1.21896 -1.108141,0 -3.324423,0 -2.216281,-0.11081 -3.324422,-0.11081 v -16.5113 h 5.540704 q 7.756985,-0.11081 13.630135,-0.7757 5.98396,-0.77569 11.8571,-2.65953 5.98396,-1.88384 9.86246,-4.98664 3.87849,-3.10279 6.3164,-8.31105 2.43791,-5.20827 2.43791,-12.30037 0,-26.59538 -30.47387,-26.59538 -10.970597,0 -20.611422,3.21361 -9.640825,3.21361 -16.511298,8.6435 l -6.205588,-16.17885 q 16.511297,-12.522 47.539238,-12.522 12.52199,0 23.16014,4.6542 10.63816,4.54337 17.50863,14.07338 6.87047,9.4192 6.87047,22.16282 0,15.51397 -7.64617,25.48724 -7.64617,9.97327 -21.49793,14.29501 15.51397,3.32443 24.26828,14.51665 8.86513,11.19222 8.86513,28.3684 0,21.83038 -15.62479,34.90644 -15.62478,13.07606 -40.11469,13.07606 z"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Oxygen;-inkscape-font-specification:Oxygen;fill:#26a69a;fill-opacity:1;stroke-width:5.67368078"
-           id="path34" />
+           id="path34"
+           inkscape:connector-curvature="0" />
         <path
            d="m 235.77608,252.66394 q -14.07339,0 -25.9305,-6.09478 -11.74629,-6.20559 -18.94921,-17.84107 -7.20291,-11.63547 -7.20291,-26.48456 0,-22.60607 15.51397,-37.45516 15.51397,-14.84909 40.55795,-14.84909 12.96525,0 23.49259,4.21094 10.63815,4.10012 17.39781,11.41385 6.87047,7.20291 10.52734,16.95455 3.76768,9.64083 3.76768,20.94386 0,15.84642 -5.42989,28.70085 -5.42989,12.85443 -18.72758,30.91713 -4.76501,6.3164 -15.95723,20.27898 -11.08141,13.96257 -19.83572,24.71154 l -8.75431,10.85978 h -24.3791 l 58.84227,-72.91567 q -12.52199,6.64885 -24.93316,6.64885 z m 38.23085,-51.30692 q 0,-15.18153 -8.64349,-24.82236 -8.53269,-9.75164 -24.93317,-9.75164 -16.5113,0 -26.15212,10.1949 -9.64083,10.08408 -9.64083,24.93317 0,15.51397 9.30838,24.82235 9.30839,9.30838 25.81968,9.30838 17.50863,0 25.81968,-9.64082 8.42187,-9.64083 8.42187,-25.04398 z"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Oxygen;-inkscape-font-specification:Oxygen;fill:#26a69a;fill-opacity:1;stroke-width:5.67368078"
-           id="path36" />
+           id="path36"
+           inkscape:connector-curvature="0" />
       </g>
     </g>
   </g>
   <g
-     id="g5">
+     id="g5"
+     transform="translate(-16.452,-9.07763)">
     <title
        id="title2">background</title>
     <rect
-       fill="none"
        id="canvas_background"
        height="413"
        width="350"
        y="-1"
-       x="-1" />
+       x="-1"
+       style="fill:none" />
   </g>
 </svg>
