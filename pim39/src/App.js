@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
 import logo from './39logo.svg';
 import './App.css';
+import BigCalendar from 'react-big-calendar';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import TodoApp from './todo/TodoApp.js';
+
+BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
+console.log(moment.locales());
 
 class Header extends Component {
     render() {
@@ -22,16 +28,59 @@ class Header extends Component {
     }
 }
 
+const testEvents = [
+    {
+        'title': 'jalla',
+        'start': new Date(2017, 10, 3),
+        'end': new Date(2017, 10, 4)
+    },
+    {
+        'title': 'jalla',
+        'start': new Date(2017, 10, 3),
+        'end': new Date(2017, 10, 4)
+    },
+    {
+        'title': 'jalla',
+        'start': new Date(2017, 10, 3),
+        'end': new Date(2017, 10, 4)
+    },
+    {
+        'title': 'jalla',
+        'start': new Date(2017, 10, 3),
+        'end': new Date(2017, 10, 4)
+    }
+];
+
+class Calendar extends Component {
+    
+    render() {
+        return (
+            <div id="calendar_container">
+                <BigCalendar
+                    //view='month'
+                    events={testEvents}
+                    views={['month', 'week', 'day', 'agenda']}
+                    toolbar={true}
+                    popup={true}
+                    step={60}
+                    timeslots={2}
+                />
+            </div>
+        )
+    }
+    
+}
+
 class App extends Component {
     render() {
         return (
             <div className="App">
-                <p className="App-intro">
-                    kaaaaalender
-                </p>
-                <div className="todoAppCont">
-                    <TodoApp />
-                </div>
+                <Calendar />
+                {
+//                <div className="todoAppCont">
+//                    <TodoApp />
+//                </div>
+                }
             </div>
         );
     }

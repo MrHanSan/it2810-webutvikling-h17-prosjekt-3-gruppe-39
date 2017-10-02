@@ -94,11 +94,20 @@
 /**********************/
 
 .App {
-  text-align: center;
+/*    text-align: center;*/
+/*    height: 100%;*/
 }
 
-.App-intro {
-  font-size: large;
+#calendar_container {
+    max-width: 70%;
+    padding: 10px;
+    height: 600px;
+}
+
+@media all and (max-width: 1050px) {
+    #calendar_container {
+        max-width: 100%;
+    }
 }
 
 .todoAppCont {
