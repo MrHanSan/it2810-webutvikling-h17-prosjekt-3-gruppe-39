@@ -1,28 +1,105 @@
+/*****************/
+/* Header styles */
+/*****************/
+
+#pim_header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    background-color: #222;
+    color: #E7E7E7;
+}
+
+#logo_title {
+    display: flex;
+    align-items: baseline;
+}
+
+#pim_logo {
+    height: 60px;
+    margin: 20px 0 0 30px;
+}
+
+#logo_title > h1 {
+    margin: 0 30px 0 10px;
+}
+
+#navbar {
+    margin-right: 40px;
+}
+
+#navbar > button {
+    cursor: pointer;
+    border-style: none;
+    background-color: transparent;
+    color: inherit;
+    font: inherit;
+    padding: 15px;
+    width: 110px;
+}
+
+#navbar > button:hover {
+    background-color: #E7E7E7;
+    color: #222;
+}
+
+.active_button {
+    background-color: #E7E7E7 !important;
+    color: #222 !important;
+}
+
+@media all and (min-width: 1050px) {
+    #todo_button {
+        display: none;
+    }
+}
+
+@media all and (max-width: 1050px) {
+    #logo_title span {
+        display: none;
+    }
+    #logo_title > h1::after {
+        content: "PIM39";
+    }
+    #pim_logo {
+        height: 27px;
+    }
+}
+
+@media all and (max-width: 600px) {
+    #pim_header {
+        flex-direction: column;
+    }
+    #logo_title {
+        width: 100%;
+        justify-content: center;
+        padding-bottom: 5px;
+    }
+    #pim_logo {
+        margin-top: 15px;
+    }
+    #navbar {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+    }
+    #navbar > button {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+/**********************/
+/* Application styles */
+/**********************/
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
 }
 
 .App-intro {
   font-size: large;
 }
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 
 .todoAppCont {
     width: 300px;
