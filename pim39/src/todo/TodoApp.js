@@ -8,7 +8,6 @@ class TodoApp extends Component {
         
         // checks localStorage for TODO items, so it can load them into the todo app
         var storedTodo;
-        console.log(localStorage.getItem("TODOs"));
         if(localStorage.getItem("TODOs")){
             storedTodo = JSON.parse(localStorage.getItem("TODOs"));
         }else{
@@ -31,8 +30,19 @@ class TodoApp extends Component {
         this.setState({ term: event.target.value });
     }
     onTypeChange = (event) => {
-        console.log(event.target.value);
         this.setState({ type: event.target.value });
+    }
+    
+    deleteTodo = (id) => {
+        var todos = this.state.items.slice();
+        for(var i = 0; i < todos.length; i++){
+            if(todos[i].id === id){
+                todos.splice(i, 1);
+                break;
+            }
+        }
+        this.setState({ items: todos });
+        localStorage.setItem("TODOs", JSON.stringify(todos));
     }
     
     
@@ -49,12 +59,15 @@ class TodoApp extends Component {
             type: selector.options[selector.selectedIndex].text
         }*/
         
-        
+        console.log(this.state.items.length);
         var item = {
             title: this.state.term,
-            type: this.state.type
+            type: this.state.type,
+            id: this.state.items.length === 0 ? 1 : this.state.items[this.state.items.length - 1].id + 1
         }
-        console.log(item);
+        
+        
+        // set ID for the new item
         
         
         this.setState({
@@ -81,7 +94,10 @@ class TodoApp extends Component {
                     
                     <button>Submit</button>
                 </form>
-                <TodoList items={this.state.items} />
+                <TodoList 
+                    items={this.state.items} 
+                    onClick={this.deleteTodo}
+                />
             </div>
         );
     }
