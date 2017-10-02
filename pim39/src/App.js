@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import logo from './39logo.svg';
 import './App.css';
 
 import TodoApp from './todo/TodoApp.js';
+import NoteApp from './todo/NoteApp.js';
 
 class Header extends Component {
     render() {
@@ -15,7 +17,7 @@ class Header extends Component {
                 <nav id="navbar">
                     <button type="button" className="active_button">Calendar</button>
                     <button type="button" id="todo_button">To-do</button>
-                    <button type="button">Notes</button>
+                    <button type="button" onClick={renderNotes}>Notes</button>
                 </nav>
             </div>
         );
@@ -35,6 +37,23 @@ class App extends Component {
             </div>
         );
     }
+}
+
+class Notes extends Component {
+  render() {
+    return (
+      <div className="App">
+        <p>Notater</p>
+        <div className="Notes">
+          <NoteApp />
+        </div>
+      </div>
+    );
+  }
+}
+
+function renderNotes(){
+  ReactDOM.render(<Notes />, document.getElementById('root'));
 }
 
 export {App as default, Header};
