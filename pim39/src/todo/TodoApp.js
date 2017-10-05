@@ -15,8 +15,6 @@ class TodoApp extends Component {
                 return  new Date(a.date) - new Date(b.date);
             });
             highestID = Math.max.apply(Math, storedTodo.map(function(o){return o.id}));
-            console.log(highestID);
-            console.log(storedTodo);
         }else{
             storedTodo = [];
         }
@@ -111,7 +109,6 @@ class TodoApp extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         
-        console.log(this.state.items.length);
         var item = {
             title: this.state.term,
             type: this.state.type,
