@@ -3,12 +3,14 @@ import logo from './39logo.svg';
 import './App.css';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
+import nb from 'moment/locale/nb'
+import engb from 'moment/locale/en-gb'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import TodoApp from './todo/TodoApp.js';
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
-console.log(moment.locales());
+moment.locale('en-gb');
 
 class Header extends Component {
     render() {
