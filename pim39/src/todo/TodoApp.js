@@ -159,21 +159,21 @@ class TodoApp extends Component {
                 <div className="listcont">
             
                     {/* TODO events for TODAy. */}
-                    <p>Today:</p><br/>
+                    <p className="todotitle">Today:</p><br/>
                     <TodoList 
                         items={this.getTodayTodos()} 
                         onClick={this.deleteTodo}
                     />
 
                     {/* TODO events for this week */}
-                    <p>Later this week:</p><br/>
+                    <p className="todotitle">Later this week:</p><br/>
                     <TodoList
                         items={this.getThisWeekTodos()} 
                         onClick={this.deleteTodo}
                     />
 
                     {/* All later TODOs. */}
-                    <p>Later:</p><br/>
+                    <p className="todotitle">Later:</p><br/>
                     <TodoList
                         items={this.getLaterTodos()} 
                         onClick={this.deleteTodo}
