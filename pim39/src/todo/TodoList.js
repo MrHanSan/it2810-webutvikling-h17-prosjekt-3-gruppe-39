@@ -1,24 +1,16 @@
 import React from 'react';
 
 const TodoList = props => (
-    <ul>
+    <ul className="todolist">
         {
-            props.items.map((item, index) => <li key={item.id}>{item.title}: {item.type} <button onClick={() => props.onClick(item.id)}>x</button></li>)
+            props.items.map((item, index) => 
+                <li className="todoitem" key={item.id}>
+                    <p className="itemTitle">{item.title}: {item.type}</p> 
+                    <p className="itemDeadline">Deadline: <span>{new Date(item.date).toLocaleDateString()}</span></p>
+                    <button onClick={() => props.onClick(item.id)}>x</button>
+                </li>)
         }
     </ul>
 );
 
 export default TodoList;
-/*var TodoList = React.createClass({
-    render: function(){
-        return(
-            <ul>
-                {
-                    this.props.items.map((item, index) => <li key={item.id}>{item.title}: {item.type} <button onClick={this.props.onClick()}>x</button></li>)
-                }
-            </ul>
-        );
-    }
-});
-
-export default TodoList;*/

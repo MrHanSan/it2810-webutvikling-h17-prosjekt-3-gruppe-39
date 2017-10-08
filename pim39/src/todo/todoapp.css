@@ -1,0 +1,71 @@
+.todoAppCont {
+    width: 200px;
+
+}
+
+.TodoAppForm {
+    display:inline-block;
+}
+
+.TodoAppForm textarea {
+    resize: none;
+}
+
+.TodoAppForm p {
+    margin-bottom: 0;
+}
+
+
+.listcont {
+    margin-left: 13px;
+    margin-right: 13px;
+}
+.listcont p {
+    margin-bottom: 0;
+}
+
+.todolist {
+    list-style-type: none;
+    padding: 0;
+}
+
+.todolist button {
+    border: none;
+    background-color: #ff613a;
+    display: none;
+}
+
+.todoitem{
+    position: relative;
+    text-align: left;
+    
+    border-bottom: 1px solid black;
+    margin-bottom: 2px;
+}
+
+
+.todoitem:last-of-type{
+    border-bottom: none;
+}
+
+
+.todoitem p{
+    margin-top: 0;
+}
+
+.todoitem:hover button {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0 auto;
+}
+
+
+.itemTitle {
+    color:
+}
+
+.itemDeadline span {
+    color: red;
+}
