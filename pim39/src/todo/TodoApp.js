@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TodoList from './TodoList.js';
+import './todoapp.css';
 
 // init when you load the page
 class TodoApp extends Component {
@@ -22,6 +23,7 @@ class TodoApp extends Component {
         
         this.state = {
             term: '',
+            desc: '',
             type: 'work',
             date: new Date(),
             highestID: highestID,
@@ -36,6 +38,11 @@ class TodoApp extends Component {
     onTitleChange = (event) => {
         this.setState({ term: event.target.value });
     }
+    
+    onDescChange = (event) => {
+        this.setState({ desc: event.target.value });
+    }
+    
     onTypeChange = (event) => {
         this.setState({ type: event.target.value });
     }
@@ -111,17 +118,18 @@ class TodoApp extends Component {
         
         var item = {
             title: this.state.term,
+            desc: this.state.desc,
             type: this.state.type,
             date: this.state.date,
             id: this.state.items.length === 0 ? 1 : this.state.highestID + 1
         }
-
         
         
         // set ID for the new item
         
         this.setState({
             term: '',
+            desc: '',
             items: [...this.state.items, item], // adds item to the visible todo list,
             highestID: this.state.highestID + 1
         });
@@ -133,40 +141,44 @@ class TodoApp extends Component {
     // displays page
     render() {
         return(
-            <div>
-                <form className="TodoApp" onSubmit={this.onSubmit}>
-                    <input value={this.state.term} onChange={this.onTitleChange} /><br/>
+            <div className="todoAppCont">
+                <form className="TodoAppForm" onSubmit={this.onSubmit}>
+                    <p>Title: </p><input value={this.state.term} onChange={this.onTitleChange} /><br/>
+                    <p>Description</p><textarea rows="4" cols="20" value={this.state.desc} onChange={this.onDescChange} /><br/>
             
-                    <select id="typeSelector" defaultValue="work" onChange={this.onTypeChange}>
+                    <p>Type: </p><select id="typeSelector" defaultValue="work" onChange={this.onTypeChange}>
                         <option value="work" >Work deadline</option>
                         <option value="meeting">Meeting</option>
                         <option value="spare time">Spare time</option>
                     </select><br/>
-                    <input type="date" onChange={this.onDateChange} /><br/>
+            
+                    <p>Date: </p><input type="date" onChange={this.onDateChange} /><br/>
                     
                     <button>Submit</button>
                 </form>
+                <div className="listcont">
             
-                {/* TODO events for TODAy. */}
-                <p>Today:</p><br/>
-                <TodoList 
-                    items={this.getTodayTodos()} 
-                    onClick={this.deleteTodo}
-                />
-                
-				{/* TODO events for this week */}
-                <p>Later this week:</p><br/>
-				<TodoList
-					items={this.getThisWeekTodos()} 
-                    onClick={this.deleteTodo}
-				/>
-                
-                {/* All later TODOs. */}
-                <p>Later:</p><br/>
-                <TodoList
-					items={this.getLaterTodos()} 
-                    onClick={this.deleteTodo}
-				/>
+                    {/* TODO events for TODAy. */}
+                    <p>Today:</p><br/>
+                    <TodoList 
+                        items={this.getTodayTodos()} 
+                        onClick={this.deleteTodo}
+                    />
+
+                    {/* TODO events for this week */}
+                    <p>Later this week:</p><br/>
+                    <TodoList
+                        items={this.getThisWeekTodos()} 
+                        onClick={this.deleteTodo}
+                    />
+
+                    {/* All later TODOs. */}
+                    <p>Later:</p><br/>
+                    <TodoList
+                        items={this.getLaterTodos()} 
+                        onClick={this.deleteTodo}
+                    />
+                </div>
             </div>
         );
     }
