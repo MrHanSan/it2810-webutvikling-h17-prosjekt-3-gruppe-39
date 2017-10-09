@@ -3,8 +3,8 @@ import logo from './39logo.svg';
 import './App.css';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
-import nb from 'moment/locale/nb'
-import engb from 'moment/locale/en-gb'
+import 'moment/locale/nb';
+import 'moment/locale/en-gb';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import TodoApp from './todo/TodoApp.js';
@@ -33,28 +33,33 @@ class Header extends Component {
 const testEvents = [
     {
         'title': 'jalla',
-        'start': new Date(2017, 10, 3),
-        'end': new Date(2017, 10, 4)
+        'start': new Date(2017, 9, 3, 10),
+        'end': new Date(2017, 9, 3, 11)
+    },
+    {
+        'title': 'ting',
+        'start': new Date(2017, 9, 20, 14),
     },
     {
         'title': 'jalla',
-        'start': new Date(2017, 10, 3),
-        'end': new Date(2017, 10, 4)
+        'start': new Date(2017, 9, 3),
+        'end': new Date(2017, 9, 4)
     },
     {
         'title': 'jalla',
-        'start': new Date(2017, 10, 3),
-        'end': new Date(2017, 10, 4)
-    },
-    {
-        'title': 'jalla',
-        'start': new Date(2017, 10, 3),
-        'end': new Date(2017, 10, 4)
+        'start': new Date(2017, 9, 3),
+        'end': new Date(2017, 9, 4)
     }
 ];
 
 class Calendar extends Component {
-    
+
+    static get stringMessages() {
+        return {
+            'previous': 'previous'
+        };
+    }
+
     render() {
         return (
             <div id="calendar_container">
@@ -66,6 +71,7 @@ class Calendar extends Component {
                     popup={true}
                     step={60}
                     timeslots={2}
+                    messages={Calendar.stringMessages}
                 />
             </div>
         )
