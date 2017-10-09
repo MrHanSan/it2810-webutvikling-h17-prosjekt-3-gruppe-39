@@ -29,9 +29,7 @@ class App extends Component {
                 <p className="App-intro">
                     kaaaaalender
                 </p>
-                <div className="todoAppCont">
-                    <TodoApp />
-                </div>
+                <TodoApp />
             </div>
         );
     }
