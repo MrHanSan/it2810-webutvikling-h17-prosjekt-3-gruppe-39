@@ -1,11 +1,16 @@
 import React from 'react';
 
-const List = props => (
-    <ul>
+const TodoList = props => (
+    <ul className="todolist">
         {
-            props.items.map((item, index) => <li key={index}>{item.title}: {item.type}</li>)
+            props.items.map((item, index) => 
+                <li className="todoitem" key={item.id}>
+                    <p className="itemTitle">{item.title}: {item.type}</p> 
+                    <p className="itemDeadline">Deadline: <span>{new Date(item.date).toLocaleDateString()}</span></p>
+                    <button onClick={() => props.onClick(item.id)}>x</button>
+                </li>)
         }
     </ul>
 );
 
-export default List;
+export default TodoList;

@@ -108,9 +108,7 @@ class App extends Component {
             <div className="App">
                 <Calendar />
                 {
-//                <div className="todoAppCont">
-//                    <TodoApp />
-//                </div>
+//                <TodoApp />
                 }
             </div>
         );
