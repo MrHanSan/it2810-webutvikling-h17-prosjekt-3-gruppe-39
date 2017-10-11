@@ -36,7 +36,7 @@ class TodoApp extends Component {
                 d.getMonth() === today.getMonth() &&
                 d.getYear() === today.getYear();
         });
-        console.log(todos);
+        console.log(todos); // TODO remove
         return todos;
     }
     /**
