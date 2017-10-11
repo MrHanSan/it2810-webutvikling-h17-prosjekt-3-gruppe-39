@@ -16,7 +16,7 @@ class LocalStore {
             storedTodo = JSON.parse(storedTodo);
             // TODO convert to Date objects first?
             storedTodo.sort(function (a, b){
-                return  new Date(a.date) - new Date(b.date);
+                return  new Date(a.end) - new Date(b.end);
             });
             LocalStore.highestID = Math.max.apply(Math, storedTodo.map(function(o){return o.id}));
         }else{
@@ -31,7 +31,7 @@ class LocalStore {
      */
     static storeTODOs(storedTodo) {
         localStorage.setItem("TODOs", JSON.stringify(storedTodo));
-        alert('store');
+        alert('store'); // TODO remove
     }
     
     

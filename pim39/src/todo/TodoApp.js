@@ -31,12 +31,12 @@ class TodoApp extends Component {
         // TODO get from props
         var today = new Date();
         var todos = this.props.todoItems.filter(function (i){
-            var d = new Date(i.date);
+            var d = new Date(i.end);
             return d.getDate() === today.getDate() &&
                 d.getMonth() === today.getMonth() &&
                 d.getYear() === today.getYear();
         });
-        
+        console.log(todos);
         return todos;
     }
     /**
@@ -50,13 +50,13 @@ class TodoApp extends Component {
         var minDate = today.getDate();
         
         var todos = this.props.todoItems.filter(function (i){
-            var d = new Date(i.date);
+            var d = new Date(i.end);
             return d.getDate() > minDate &&
                 d.getDate() <= maxDate &&
                 d.getMonth() === today.getMonth() &&
                 d.getYear() === today.getYear();
         });
-        
+        console.log(todos);
         return todos;
     }
     /**
@@ -69,10 +69,10 @@ class TodoApp extends Component {
         var minDate = (6 - today.getDay()) + today.getDate() + 1;
         
         var todos = this.props.todoItems.filter(function (i){
-            var d = new Date(i.date);
+            var d = new Date(i.end);
             return d.getDate() > minDate;
         });
-        
+        console.log(todos);
         return todos;
     }
     
