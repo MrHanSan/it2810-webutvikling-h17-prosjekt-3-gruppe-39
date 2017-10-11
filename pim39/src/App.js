@@ -21,9 +21,9 @@ class Header extends Component {
                     <h1><span>Personal Information Manager No. 39</span></h1>
                 </div>
                 <nav id="navbar">
-                    <button type="button" className="active_button">Calendar</button>
-                    <button type="button" id="todo_button">To-do</button>
-                    <button type="button">Notes</button>
+                    <button type="button" id="calendar_button" className="nav_button active_button">Calendar</button>
+                    <button type="button" id="todo_button" className="nav_button">To-do</button>
+                    <button type="button" id="notes_button" className="nav_button">Notes</button>
                 </nav>
             </div>
         );
@@ -59,24 +59,30 @@ const testEvents = [
 ];
 
 class Calendar extends Component {
+//    constructor(props) {
+//        super(props);
+//        // TODO construct
+//    }
 
     static get stringMessages() {
         return {
-            'previous': 'previous'
+            'previous': 'prev'
         };
     }
     static get formats() {
         return {
-            weekdayFormat: (date, culture, localizer) => localizer.format(date, 'dddd', culture),
+            weekdayFormat: (date, culture, localizer) => localizer.format(date, 'ddd', culture),
             eventTimeRangeFormat: ({start, end}, culture, localizer) => ""
         };
     }
     
     selectSlot({start, end, slots, action}) {
         // TODO new event
+        alert('w00t! ' + start.toLocaleString());
     }
     selectEvent(event, e) {
         // TODO show event
+        alert('hello! ' + event.title);
     }
 
     render() {
@@ -87,10 +93,11 @@ class Calendar extends Component {
                     events={testEvents}
                     onSelectSlot={this.selectSlot}
                     onSelectEvent={this.selectEvent}
-                    views={['month', 'week', 'day', 'agenda']}
+                    views={['month', 'week', 'day']}
                     drilldownView={null}
                     toolbar={true}
                     popup={true}
+                    selectable={true}
                     step={60}
                     timeslots={2}
                     formats={Calendar.formats}
@@ -102,14 +109,98 @@ class Calendar extends Component {
     
 }
 
+
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            navTab: 'calendar', // Valid states: calendar, todo, notes
+            landscapeMode: true
+        }
+        // Properly bind this to ensure only one instance of method
+        this.handleResize = this.handleResize.bind(this);
+        this.handleNavClick = this.handleNavClick.bind(this);
+    }
+    componentDidMount() {
+        this.handleResize(); // Set state based on viewport size
+        window.addEventListener('resize', this.handleResize);
+        // iOS (and other mobile) delayed event to increase chance of correct behaviour on rotation
+        window.addEventListener('orientationchange', () => setTimeout(this.handleResize, 250));
+        
+        // Add navbar buttons click listeners
+        // TODO suboptimal solution
+        const navList = document.getElementsByClassName('nav_button');
+        for (let i = 0; i < navList.length; i++) {
+            navList[i].addEventListener('click', this.handleNavClick);
+        }
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize);
+    }
+    
+    handleResize() {
+        const portraitWidth = 600,
+              landscapeWidth = 800;
+        
+        if (window.innerWidth > landscapeWidth) {
+            if (this.state.navTab === 'todo') {
+                this.setState({
+                    navTab: 'calendar'
+                });
+            }
+            this.setState({
+                landscapeMode: true
+            });
+        } else if (window.innerWidth > portraitWidth) {
+            this.setState({
+                landscapeMode: false
+            });
+        } else {
+            this.setState({
+                landscapeMode: false
+            });
+        }
+    }
+    
+    handleNavClick(event) {
+        let oldState = this.state.navTab;
+        document.getElementById(oldState + '_button').classList.remove('active_button');
+        event.currentTarget.classList.add('active_button');
+        
+        if (event.currentTarget.id === 'calendar_button') this.setState({navTab: 'calendar'});
+        else if (event.currentTarget.id === 'todo_button') this.setState({navTab: 'todo'});
+        else if (event.currentTarget.id === 'notes_button') this.setState({navTab: 'notes'});
+    }
+    
     render() {
+        let calendar, todo, notes;
+        
+        if (this.state.navTab === 'calendar') {
+            // App is in Calendar/combined mode
+            if (this.state.landscapeMode) {
+                // Combined calendar and todo list
+                calendar = <Calendar />;
+                todo = <TodoApp />;
+            } else {
+                // Only calendar
+                calendar = <Calendar />;
+            }
+            
+        } else if (this.state.navTab === 'todo') {
+            // App is in To-do mode
+            todo = <TodoApp />;
+            
+        } else if (this.state.navTab === 'notes') {
+            // App is in Notes mode
+            // TODO insert Notes component here
+            notes = 'Here is should be notes';
+        }
+        
         return (
             <div className="App">
-                <Calendar />
-                {
-//                <TodoApp />
-                }
+                {calendar}
+                {todo}
+                {notes}
             </div>
         );
     }

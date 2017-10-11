@@ -1,11 +1,11 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "PIM39",
+  "name": "Personal Information Manager No. 39",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "192x192",
-      "type": "image/png"
+      "sizes": "64x64",
+      "type": "image/x-icon"
     }
   ],
   "start_url": "./index.html",
