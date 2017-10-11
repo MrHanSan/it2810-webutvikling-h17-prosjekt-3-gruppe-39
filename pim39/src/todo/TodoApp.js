@@ -56,7 +56,6 @@ class TodoApp extends Component {
                 d.getMonth() === today.getMonth() &&
                 d.getYear() === today.getYear();
         });
-        console.log(todos);
         return todos;
     }
     /**
@@ -72,7 +71,6 @@ class TodoApp extends Component {
             var d = new Date(i.end);
             return d.getDate() > minDate;
         });
-        console.log(todos);
         return todos;
     }
     

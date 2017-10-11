@@ -43,11 +43,25 @@ class Header extends Component {
 class App extends Component {
     constructor(props) {
         super(props);
+        
+        var storedTodo;
+        var highestID = 0;
+        if(localStorage.getItem("TODOs")){
+            storedTodo = JSON.parse(localStorage.getItem("TODOs"));
+            storedTodo.sort(function (a, b){
+                return  new Date(a.date) - new Date(b.date);
+            });
+            highestID = Math.max.apply(Math, storedTodo.map(function(o){return o.id}));
+        }else{
+            storedTodo = [];
+        }
+        
+        
         this.state = {
             navTab: 'calendar', // Valid states: calendar, todo, notes
             landscapeMode: true, // Landscape mode when we have room for both calendar and todo list
-            todoItems: LocalStore.getTODOs(), // Fetch Todo items from deep storage
-            highestID: LocalStore.highestID // FIXME correct?
+            todoItems: storedTodo, // Fetch Todo items from deep storage
+            highestID: highestID
         }
         // Properly bind this to handlers to ensure access to state
         this.handleResize = this.handleResize.bind(this);
