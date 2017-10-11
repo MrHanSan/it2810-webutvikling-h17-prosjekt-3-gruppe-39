@@ -33,10 +33,6 @@ const testEvents = [
  *
  */
 class Calendar extends Component {
-//    constructor(props) {
-//        super(props);
-//        // TODO construct?
-//    }
 
     static get stringMessages() {
         return {

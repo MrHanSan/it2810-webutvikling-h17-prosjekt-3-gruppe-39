@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+/**
+ * Todo app new todo form
+ */
 class TodoForm extends Component {
     constructor(props) {
         super(props);
@@ -9,7 +12,6 @@ class TodoForm extends Component {
             type: 'work',
             start: new Date(),
             end: new Date(),
-//            highestID: highestID // FIXME get from props? not in state here
         };
         
         // Bind this to event handlers
@@ -47,32 +49,29 @@ class TodoForm extends Component {
      */
     onSubmit(event) {
         event.preventDefault();
-        
-        var item = {
+        // Get form values from state
+        let item = {
             title: this.state.title,
             desc: this.state.desc,
             type: this.state.type,
             start: this.state.start,
             end: this.state.end,
-            id: this.props.todoItems.length === 0 ? 1 : this.props.highestID + 1 // FIXME Really need +1 here when incremented in App after storing?
-        }
-        
+            id: this.props.todoItems.length === 0 ? 1 : this.props.highestID + 1
+        };
         // Reset values for new item
         this.setState({
             title: '',
             desc: '',
             type: 'none',
             // TODO reset dates?
-//            highestID: this.state.highestID + 1 // TODO Not in state here. remove
         });
         
-        // FIXME correct? from props
         this.props.submitCallback(event, item);
     }
     
     /**
      * React render function
-     * @returns {[[Type]]} [[Description]]
+     * @returns {object} React element
      */
     render() {
         return (
@@ -80,15 +79,17 @@ class TodoForm extends Component {
                 <p>Title: </p><input value={this.state.title} onChange={this.onTitleChange} /><br/>
                 <p>Description</p><textarea rows="4" cols="20" value={this.state.desc} onChange={this.onDescChange} /><br/>
 
-                <p>Type: </p><select id="typeSelector" defaultValue="work" onChange={this.onTypeChange}>
+                <p>Type: </p><select id="typeSelector" defaultValue="none" onChange={this.onTypeChange}>
                     <option value="none" ></option>
                     <option value="work" >Work deadline</option>
                     <option value="meeting">Meeting</option>
                     <option value="spare time">Spare time</option>
                 </select><br/>
 
-                <p>Start date: </p><input type="date" onChange={this.onStartDateChange} /><br/>
-                <p>End date: </p><input type="date" onChange={this.onEndDateChange} /><br/>
+                <p>Start date: </p>
+                <input type="date" onChange={this.onStartDateChange} /><br/>
+                <p>End date: </p>
+                <input type="date" onChange={this.onEndDateChange} /><br/>
 
                 <button type="submit">Save</button>
             </form>

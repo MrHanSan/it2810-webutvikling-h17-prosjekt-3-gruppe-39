@@ -1,16 +1,13 @@
 /**
- * Container class for static localStorage functions and helpers
+ * Container class for static localStorage helpers
  */
 class LocalStore {
-    constructor() {
-        LocalStore.highestID = 0;
-    }
-    
     /**
      * Fetch Todo list from localStorage
      * @returns {Array} List of Todo items
      */
     static getTODOs() {
+        LocalStore.highestID = 0;
         let storedTodo = localStorage.getItem("TODOs");
         if(storedTodo){
             storedTodo = JSON.parse(storedTodo);
@@ -18,7 +15,10 @@ class LocalStore {
             storedTodo.sort(function (a, b){
                 return  new Date(a.end) - new Date(b.end);
             });
-            LocalStore.highestID = Math.max.apply(Math, storedTodo.map(function(o){return o.id}));
+            let highestID = Math.max.apply(Math, storedTodo.map(function(o){return o.id}));
+            console.log(highestID);
+            if (highestID > 0) LocalStore.highestID = highestID;
+            console.log(LocalStore.highestID);
         }else{
             storedTodo = [];
         }
@@ -31,43 +31,6 @@ class LocalStore {
      */
     static storeTODOs(storedTodo) {
         localStorage.setItem("TODOs", JSON.stringify(storedTodo));
-        alert('store'); // TODO remove
-    }
-    
-    
-    
-    // called from the delete buttons on the todo events. Removes themself from the state of the todoapp, which then saves the delete in localstorage, and updates the visible list because of react sauce.
-    deleteTodo(id) {
-        // TODO here? delete this
-        var todos = this.state.items.slice();
-        for(var i = 0; i < todos.length; i++){
-            if(todos[i].id === id){
-                todos.splice(i, 1);
-                break;
-            }
-        }
-        this.setState({ items: todos });
-        localStorage.setItem("TODOs", JSON.stringify(todos));
-    }
-    
-    // TODO remove?
-    static newTODO(){
-        var counter = 0;
-        var todoCollection = []
-
-        var title = "AI øving";
-        var task = "levere øving 2 i AI"
-        var date = Date(2017, 8, 29);
-        var test = {
-            "title": title,
-            "task": task,
-            "date": date
-        };
-
-
-        todoCollection[counter] = test;
-        counter += 1;
-        localStorage.setItem("TODOs", JSON.stringify(todoCollection));
     }
 }
 

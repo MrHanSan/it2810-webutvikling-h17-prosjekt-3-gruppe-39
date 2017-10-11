@@ -44,23 +44,14 @@ class App extends Component {
     constructor(props) {
         super(props);
         
-        var storedTodo;
-        var highestID = 0;
-        if(localStorage.getItem("TODOs")){
-            storedTodo = JSON.parse(localStorage.getItem("TODOs"));
-            storedTodo.sort(function (a, b){
-                return  new Date(a.date) - new Date(b.date);
-            });
-            highestID = Math.max.apply(Math, storedTodo.map(function(o){return o.id}));
-        }else{
-            storedTodo = [];
-        }
-        
+        // Fetch Todo items from deep storage
+        let storedTodo = LocalStore.getTODOs();
+        let highestID = LocalStore.highestID;
         
         this.state = {
             navTab: 'calendar', // Valid states: calendar, todo, notes
             landscapeMode: true, // Landscape mode when we have room for both calendar and todo list
-            todoItems: storedTodo, // Fetch Todo items from deep storage
+            todoItems: storedTodo,
             highestID: highestID
         }
         // Properly bind this to handlers to ensure access to state
@@ -70,7 +61,7 @@ class App extends Component {
         this.handleDeleteTodo = this.handleDeleteTodo.bind(this);
     }
     /**
-     * [[Description]]
+     * Component was rendered
      */
     componentDidMount() {
         this.handleResize(); // Set state based on viewport size
@@ -79,21 +70,20 @@ class App extends Component {
         window.addEventListener('orientationchange', () => setTimeout(this.handleResize, 250));
         
         // Add navbar buttons click listeners
-        // TODO suboptimal solution
         const navList = document.getElementsByClassName('nav_button');
         for (let i = 0; i < navList.length; i++) {
             navList[i].addEventListener('click', this.handleNavClick);
         }
     }
     /**
-     * [[Description]]
+     * Component is about to be removed
      */
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
     }
     
     /**
-     * [[Description]]
+     * Handle window resize
      */
     handleResize() {
         const portraitWidth = 600,
@@ -119,8 +109,8 @@ class App extends Component {
         }
     }
     /**
-     * [[Description]]
-     * @param {object} event [[Description]]
+     * Handle navigation bar clicks
+     * @param {object} event Click event object
      */
     handleNavClick(event) {
         let oldState = this.state.navTab;
@@ -132,31 +122,24 @@ class App extends Component {
         else if (event.currentTarget.id === 'notes_button') this.setState({navTab: 'notes'});
     }
     /**
-     * [[Description]]
-     * @param {object} event [[Description]]
-     * @param {object} item  [[Description]]
+     * Stores a new todo item in state and localstorage
+     * @param {object} event Submit event object
+     * @param {object} item  Todo item to store
      */
     handleTodoSubmit(event, item) {
-        // set ID for the new item
-        // TODO something with highest ID
         let newTodoItems = [...this.state.todoItems, item];
         this.setState({
             todoItems: newTodoItems, // adds item to the visible todo list,
             highestID: this.state.highestID + 1
         });
         
-        // sets todoitems to localstorage, can now be extracted from other apps on the site.
-//        localStorage.setItem("TODOs", JSON.stringify([...this.state.items, item]));
-        
         LocalStore.storeTODOs(newTodoItems);
     }
     /**
-     * called from the delete buttons on the todo events. Removes themself from the state of the todoapp, which then saves the delete in localstorage, and updates the visible list because of react sauce.
+     * Removes a todo with id from state and localstorage
      * @param {number} id Todo item ID
      */
     handleDeleteTodo(id) {
-        // FIXME fixed?
-        // TODO Necessary to check highest ID on delete? Or is it only important that they are unique?
         let todos = this.state.todoItems.slice();
         for(let i = 0; i < todos.length; i++){
             if(todos[i].id === id) {
@@ -165,12 +148,12 @@ class App extends Component {
             }
         }
         this.setState({ todoItems: todos });
-        LocalStore.storeTODOs(this.state.todoItems);
+        LocalStore.storeTODOs(todos);
     }
     
     /**
-     * Renders app based on state
-     * @returns {[[Type]]} [[Description]]
+     * React render function
+     * @returns {object} React element
      */
     render() {
         let calendar, todo, notes, calProps, todoProps;

@@ -3,24 +3,10 @@ import TodoList from './TodoList.js';
 import TodoForm from './TodoForm.js';
 import './todoapp.css';
 
-// init when you load the page
+/**
+ * TodoApp React component
+ */
 class TodoApp extends Component {
-    constructor(props) {
-        super(props);
-        
-        // TODO should not have state? remove constructor
-//        this.state = {
-//            highestID: highestID,
-//            items: storedTodo
-//        };
-    }
-    
-    // TODO Needed props:
-    //Todo item list
-    //delete todo
-    //handle submit to form
-    //highest ID?
-    
     
     // different getters for TODOs, based on dates. Sorts todos based on date.
     /**
@@ -28,7 +14,6 @@ class TodoApp extends Component {
      * @returns {Array} Todo items
      */
     getTodayTodos() {
-        // TODO get from props
         var today = new Date();
         var todos = this.props.todoItems.filter(function (i){
             var d = new Date(i.end);
@@ -36,7 +21,6 @@ class TodoApp extends Component {
                 d.getMonth() === today.getMonth() &&
                 d.getYear() === today.getYear();
         });
-        console.log(todos); // TODO remove
         return todos;
     }
     /**
@@ -44,7 +28,6 @@ class TodoApp extends Component {
      * @returns {Array} Todo items
      */
     getThisWeekTodos() {
-        // TODO get from props
         var today = new Date();
         var maxDate = (6 - today.getDay()) + today.getDate() + 1;
         var minDate = today.getDate();
@@ -63,7 +46,6 @@ class TodoApp extends Component {
      * @returns {Array} Todo items
      */
     getLaterTodos() {
-        // TODO get from props
         var today = new Date();
         var minDate = (6 - today.getDay()) + today.getDate() + 1;
         
@@ -75,7 +57,8 @@ class TodoApp extends Component {
     }
     
     /**
-     * Displays page
+     * React render function
+     * @returns {object} React element
      */
     render() {
         return(

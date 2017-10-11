@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Todo list component
 const TodoList = props => (
     <ul className="todolist">
         {
