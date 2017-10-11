@@ -7,11 +7,17 @@ import 'moment/locale/nb';
 import 'moment/locale/en-gb';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
+import LocalStore from './todo/LocalStore.js';
 import TodoApp from './todo/TodoApp.js';
+import Calendar from './todo/Calendar.js';
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 moment.locale('en-gb');
 
+
+/**
+ * Header with title and navbar
+ */
 class Header extends Component {
     render() {
         return (
@@ -30,97 +36,28 @@ class Header extends Component {
     }
 }
 
-const testEvents = [
-    {
-        'title': 'Jalla 1',
-        'start': new Date(2017, 9, 3, 10),
-        'end': new Date(2017, 9, 3, 11)
-    },
-    {
-        'title': 'Jalla 2',
-        'start': new Date(2017, 9, 3, 14),
-        'end': new Date(2017, 9, 3, 15)
-    },
-    {
-        'title': 'ting',
-        'start': new Date(2017, 9, 20, 14),
-    },
-    {
-        'title': 'Helg',
-        'start': new Date(2017, 9, 13, 17),
-        'end': new Date(2017, 9, 15, 23, 59)
-    },
-    {
-        'title': 'Heldags',
-        'start': new Date(2017, 9, 3, 8),
-        'end': new Date(2017, 9, 3, 9),
-        'allDay': true
-    }
-];
 
-class Calendar extends Component {
-//    constructor(props) {
-//        super(props);
-//        // TODO construct
-//    }
-
-    static get stringMessages() {
-        return {
-            'previous': 'prev'
-        };
-    }
-    static get formats() {
-        return {
-            weekdayFormat: (date, culture, localizer) => localizer.format(date, 'ddd', culture),
-            eventTimeRangeFormat: ({start, end}, culture, localizer) => ""
-        };
-    }
-    
-    selectSlot({start, end, slots, action}) {
-        // TODO new event
-        alert('w00t! ' + start.toLocaleString());
-    }
-    selectEvent(event, e) {
-        // TODO show event
-        alert('hello! ' + event.title);
-    }
-
-    render() {
-        return (
-            <div id="calendar_container">
-                <BigCalendar
-                    //view='month'
-                    events={testEvents}
-                    onSelectSlot={this.selectSlot}
-                    onSelectEvent={this.selectEvent}
-                    views={['month', 'week', 'day']}
-                    drilldownView={null}
-                    toolbar={true}
-                    popup={true}
-                    selectable={true}
-                    step={60}
-                    timeslots={2}
-                    formats={Calendar.formats}
-                    messages={Calendar.stringMessages}
-                />
-            </div>
-        )
-    }
-    
-}
-
-
+/**
+ * Parent Component for application
+ */
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             navTab: 'calendar', // Valid states: calendar, todo, notes
-            landscapeMode: true
+            landscapeMode: true, // Landscape mode when we have room for both calendar and todo list
+            todoItems: LocalStore.getTODOs(), // Fetch Todo items from deep storage
+            highestID: LocalStore.highestID // FIXME correct?
         }
-        // Properly bind this to ensure only one instance of method
+        // Properly bind this to handlers to ensure access to state
         this.handleResize = this.handleResize.bind(this);
         this.handleNavClick = this.handleNavClick.bind(this);
+        this.handleTodoSubmit = this.handleTodoSubmit.bind(this);
+        this.handleDeleteTodo = this.handleDeleteTodo.bind(this);
     }
+    /**
+     * [[Description]]
+     */
     componentDidMount() {
         this.handleResize(); // Set state based on viewport size
         window.addEventListener('resize', this.handleResize);
@@ -134,10 +71,16 @@ class App extends Component {
             navList[i].addEventListener('click', this.handleNavClick);
         }
     }
+    /**
+     * [[Description]]
+     */
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
     }
     
+    /**
+     * [[Description]]
+     */
     handleResize() {
         const portraitWidth = 600,
               landscapeWidth = 800;
@@ -161,7 +104,10 @@ class App extends Component {
             });
         }
     }
-    
+    /**
+     * [[Description]]
+     * @param {object} event [[Description]]
+     */
     handleNavClick(event) {
         let oldState = this.state.navTab;
         document.getElementById(oldState + '_button').classList.remove('active_button');
@@ -171,24 +117,73 @@ class App extends Component {
         else if (event.currentTarget.id === 'todo_button') this.setState({navTab: 'todo'});
         else if (event.currentTarget.id === 'notes_button') this.setState({navTab: 'notes'});
     }
+    /**
+     * [[Description]]
+     * @param {object} event [[Description]]
+     * @param {object} item  [[Description]]
+     */
+    handleTodoSubmit(event, item) {
+        // set ID for the new item
+        // TODO something with highest ID
+        let newTodoItems = [...this.state.todoItems, item];
+        this.setState({
+            todoItems: newTodoItems, // adds item to the visible todo list,
+            highestID: this.state.highestID + 1
+        });
+        
+        // sets todoitems to localstorage, can now be extracted from other apps on the site.
+//        localStorage.setItem("TODOs", JSON.stringify([...this.state.items, item]));
+        
+        LocalStore.storeTODOs(newTodoItems);
+    }
+    /**
+     * called from the delete buttons on the todo events. Removes themself from the state of the todoapp, which then saves the delete in localstorage, and updates the visible list because of react sauce.
+     * @param {number} id Todo item ID
+     */
+    handleDeleteTodo(id) {
+        // FIXME fixed?
+        // TODO Necessary to check highest ID on delete? Or is it only important that they are unique?
+        let todos = this.state.todoItems.slice();
+        for(let i = 0; i < todos.length; i++){
+            if(todos[i].id === id) {
+                todos.splice(i, 1);
+                break;
+            }
+        }
+        this.setState({ todoItems: todos });
+        LocalStore.storeTODOs(this.state.todoItems);
+    }
     
+    /**
+     * Renders app based on state
+     * @returns {[[Type]]} [[Description]]
+     */
     render() {
-        let calendar, todo, notes;
+        let calendar, todo, notes, calProps, todoProps;
+        calProps = {
+            eventItems: this.state.todoItems
+        };
+        todoProps = {
+            todoItems: this.state.todoItems,
+            highestID: this.state.highestID,
+            todoSubmitCallback: this.handleTodoSubmit,
+            todoDeleteCallback: this.handleDeleteTodo
+        };
         
         if (this.state.navTab === 'calendar') {
             // App is in Calendar/combined mode
             if (this.state.landscapeMode) {
                 // Combined calendar and todo list
-                calendar = <Calendar />;
-                todo = <TodoApp />;
+                calendar = <Calendar {...calProps} />;
+                todo = <TodoApp {...todoProps} />;
             } else {
                 // Only calendar
-                calendar = <Calendar />;
+                calendar = <Calendar {...calProps} />;
             }
             
         } else if (this.state.navTab === 'todo') {
             // App is in To-do mode
-            todo = <TodoApp />;
+            todo = <TodoApp {...todoProps} />;
             
         } else if (this.state.navTab === 'notes') {
             // App is in Notes mode
