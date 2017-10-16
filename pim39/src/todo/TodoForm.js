@@ -49,6 +49,18 @@ class TodoForm extends Component {
      */
     onSubmit(event) {
         event.preventDefault();
+        //input control, shouldn't make events with empty fields
+        if(this.state.title === ""){
+            alert("You need to add a title to your event");
+            return;
+        }
+        
+        if(new Date(this.state.start).getTime() > new Date(this.state.end).getTime()){
+            alert("start date is after end date");
+            return;
+        }
+        
+        
         // Get form values from state
         let item = {
             title: this.state.title,
@@ -61,9 +73,7 @@ class TodoForm extends Component {
         // Reset values for new item
         this.setState({
             title: '',
-            desc: '',
-            type: 'none',
-            // TODO reset dates?
+            desc: ''
         });
         
         this.props.submitCallback(event, item);
@@ -79,8 +89,8 @@ class TodoForm extends Component {
                 <p>Title: </p><input value={this.state.title} onChange={this.onTitleChange} /><br/>
                 <p>Description</p><textarea rows="4" cols="20" value={this.state.desc} onChange={this.onDescChange} /><br/>
 
-                <p>Type: </p><select id="typeSelector" defaultValue="none" onChange={this.onTypeChange}>
-                    <option value="none" ></option>
+                <p>Type: </p><select id="typeSelector" defaultValue="other" onChange={this.onTypeChange}>
+                    <option value="other" >Other</option>
                     <option value="work" >Work deadline</option>
                     <option value="meeting">Meeting</option>
                     <option value="spare time">Spare time</option>
