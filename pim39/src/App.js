@@ -10,6 +10,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import LocalStore from './todo/LocalStore.js';
 import TodoApp from './todo/TodoApp.js';
 import Calendar from './todo/Calendar.js';
+import NotesApp from './notes/NotesApp.js';
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 moment.locale('en-gb');
@@ -47,11 +48,13 @@ class App extends Component {
         // Fetch Todo items from deep storage
         let storedTodo = LocalStore.getTODOs();
         let highestID = LocalStore.highestID;
+        let storedNotes = LocalStore.getNotes();
         
         this.state = {
             navTab: 'calendar', // Valid states: calendar, todo, notes
             landscapeMode: true, // Landscape mode when we have room for both calendar and todo list
             todoItems: storedTodo,
+            noteItems: storedNotes,
             highestID: highestID
         }
         // Properly bind this to handlers to ensure access to state
@@ -59,6 +62,8 @@ class App extends Component {
         this.handleNavClick = this.handleNavClick.bind(this);
         this.handleTodoSubmit = this.handleTodoSubmit.bind(this);
         this.handleDeleteTodo = this.handleDeleteTodo.bind(this);
+        this.handleNoteSubmit = this.handleNoteSubmit.bind(this);
+        this.handleNoteDelete = this.handleNoteDelete.bind(this);
     }
     /**
      * Component was rendered
@@ -150,13 +155,32 @@ class App extends Component {
         this.setState({ todoItems: todos });
         LocalStore.storeTODOs(todos);
     }
-    
+    handleNoteSubmit(event, item) {
+        let newNotes = [...this.state.noteItems, item];
+        this.setState({
+            noteItems: newNotes,
+            highestID: this.state.highestID + 1
+        });
+        
+        LocalStore.storeTODOs(newNotes);
+    }
+    handleNoteDelete(id){
+        let notes = this.state.noteItems.slice();
+        for(let i = 0; i < notes.length; i++){
+            if(notes[i].id === id){
+                notes.splice(i, 1);
+                break;
+            }
+        }
+        this.setState({noteItems: notes});
+        LocalStore.storeNotes(notes)
+    }
     /**
      * React render function
      * @returns {object} React element
      */
     render() {
-        let calendar, todo, notes, calProps, todoProps;
+        let calendar, todo, notes, calProps, todoProps, noteProps;
         calProps = {
             eventItems: this.state.todoItems
         };
@@ -166,6 +190,12 @@ class App extends Component {
             todoSubmitCallback: this.handleTodoSubmit,
             todoDeleteCallback: this.handleDeleteTodo
         };
+        noteProps = {
+            noteItems: this.state.noteItems,
+            highestID: this.state.highestID,
+            noteSubmitCallback: this.handleNoteSubmit,
+            noteDeleteCallback: this.handleNoteDelete
+        }
         
         if (this.state.navTab === 'calendar') {
             // App is in Calendar/combined mode
@@ -185,7 +215,7 @@ class App extends Component {
         } else if (this.state.navTab === 'notes') {
             // App is in Notes mode
             // TODO insert Notes component here
-            notes = 'Here is should be notes';
+            notes = <NotesApp {...noteProps} />;
         }
         
         return (

@@ -32,6 +32,21 @@ class LocalStore {
     static storeTODOs(storedTodo) {
         localStorage.setItem("TODOs", JSON.stringify(storedTodo));
     }
+
+    static getNotes(){
+        let storedNotes = localStorage.getItem('Notes');
+        if (storedNotes){
+            storedNotes = JSON.parse(storedNotes);
+        }
+        else {
+            storedNotes = [];
+        }
+        return storedNotes;
+    }
+
+    static storeNotes(storedNotes) {
+        localStorage.setItem('Notes', JSON.stringify(storedNotes));
+    }
 }
 
 export default LocalStore;
