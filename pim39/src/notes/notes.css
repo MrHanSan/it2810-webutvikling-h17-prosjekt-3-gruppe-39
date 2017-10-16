@@ -1,18 +1,29 @@
 .noteForm{
-
+	margin-right: 10px;
 }
 .notesApp{
-
+	width: 80%;
+	display: flex;
+	align-items: flex-start;
 }
 .noteList{
-
+	display: flex;
+	flex-wrap: wrap;
 }
 .noteTitle{
-
-}
-.noteDescription{
-
+	border-style: solid;
+	border-width: 0px 0px 1px 0px;	
 }
 .note{
-	
+	margin: 5px;
+	max-width: 300px;
+}
+@media all and (max-width: 600px){
+	.notesApp{
+		flex-direction: column;
+		align-items: center;
+	}
+	.noteForm{
+		margin-right: 0;
+	}
 }
