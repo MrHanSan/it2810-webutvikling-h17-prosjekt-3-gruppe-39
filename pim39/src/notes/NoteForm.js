@@ -31,6 +31,10 @@ class NoteForm extends Component {
      */
     onSubmit(event) {
         event.preventDefault();
+        if(this.state.title === ''){
+            alert("You need a title");
+            return;
+        }
         // Get form values from state
         let item = {
             title: this.state.title,
