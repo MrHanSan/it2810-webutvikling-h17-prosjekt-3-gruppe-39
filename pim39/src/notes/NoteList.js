@@ -2,7 +2,7 @@ import React from 'react';
 
 // Todo list component
 const NoteList = props => (
-    <div className="notelist">
+    <div className="noteList">
         {
             props.items.map((item, index) => 
                 <div className="note" key={item.id}>
