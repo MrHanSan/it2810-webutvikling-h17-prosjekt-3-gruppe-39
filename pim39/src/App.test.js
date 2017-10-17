@@ -53,7 +53,6 @@ console.error = message => {
 };
 
 it('renders without crashing', () => {
-    console.log(props)
     const div = document.createElement('div');
     ReactDOM.render(<App />, div);
 });
@@ -116,61 +115,60 @@ describe('Shallow tests:', () => {
     });
 
     it('Shallow test: render TodoApp without crashing', () => {
+        shallow(<TodoApp {...props} />);
+    });
+
+    it('Shallow test: App contains a div with classname "App"', ()=>{
+        const wrapper = shallow(<App />);
+        expect(wrapper.find('div').filter('.App'));
+    });
+
+    it('Shallow test: TodoApp contains a div with classname "todoAppCount"', () => {
         const wrapper = shallow(<TodoApp {...props} />);
-        expect(wrapper.find('div').hasClass('todoAppCont'));
+        expect(wrapper.find('div').filter('.todoAppCont'));
+    });
 
-        it('Shallow test: App contains a div with classname "App"', ()=>{
-            const wrapper = shallow(<App />);
-            expect(wrapper.find('div').hasClass('App'));
+    it('Shallow test: Calendar renders without crashing', () => {
+        const wrapper = shallow(<Calendar {...props} />);
+        expect(wrapper.find('div').hasClass('calendar_container'));
+    });
+});
+
+
+describe('Mount tests:', () => {
+    describe('Basic rendering mounted',()=>{
+        it('Mount test: renders App  without crashing', () => {
+            const wrapper = mount(<App />);
+            wrapper.unmount();
         });
 
-        it('Shallow test: TodoApp contains a div with classname "todoAppCount"', () => {
-            const wrapper = shallow(<TodoApp {...props} />);
-            expect(wrapper.find('div').hasClass('todoAppCont'));
+        it('Mount test: App contains a div with classname "App"', ()=>{
+            const wrapper = mount(<App />);
+            expect(wrapper.find('div').filter('.App'));
+            wrapper.unmount();
         });
 
-        it('Shallow test: Calendar renders without crashing', () => {
-            const wrapper = shallow(<Calendar {...props} />);
-            expect(wrapper.find('div').hasClass('calendar_container'));
+        it('Mount test: TodoApp contains a div with classname "todoAppCount"', () => {
+            const wrapper = mount(<TodoApp {...props} />);
+            expect(wrapper.find('div').filter('.todoAppCont'));
+            wrapper.unmount();
+        });
+
+        it('Mount test: Calendar renders without crashing', () => {
+            const wrapper = mount(<Calendar {...props} />);
+            expect(wrapper.find('div').filter('calendar_container'));
+            wrapper.unmount();
         });
     });
 
 
-    describe('Mount tests:', () => {
-        describe('Basic rendering mounted',()=>{
-            it('Mount test: renders App  without crashing', () => {
-                const wrapper = mount(<App />);
-                wrapper.unmount();
-            });
-
-            it('Mount test: App contains a div with classname "App"', ()=>{
-                const wrapper = mount(<App />);
-                expect(wrapper.find('div').hasClass('App'));
-                wrapper.unmount();
-            });
-
-            it('MOunt test: TodoApp contains a div with classname "todoAppCount"', () => {
-                const wrapper = mount(<TodoApp {...props} />);
-                expect(wrapper.find('div').hasClass('todoAppCont'));
-                wrapper.unmount();
-            });
-
-            it('Mount test: Calendar renders without crashing', () => {
-                const wrapper = mount(<Calendar {...props} />);
-                expect(wrapper.find('div').hasClass('calendar_container'));
-                wrapper.unmount();
-            });
-        });
-
-
-        describe('Basic changes to props values', () =>{
-            it('allows us to set props to App', () => {
-                const wrapper = mount(<App storedTodo="baz" />);
-                expect(wrapper.props().storedTodo).to.equal('baz');
-                wrapper.setProps({ bar: 'foo' });
-                expect(wrapper.props().bar).to.equal('foo');
-                wrapper.unmount();
-            });
+    describe('Basic changes to props values', () =>{
+        it('allows us to set props to App', () => {
+            const wrapper = mount(<App storedTodo="baz" />);
+            expect(wrapper.props().storedTodo).to.equal('baz');
+            wrapper.setProps({ bar: 'foo' });
+            expect(wrapper.props().bar).to.equal('foo');
+            wrapper.unmount();
         });
     });
 });
