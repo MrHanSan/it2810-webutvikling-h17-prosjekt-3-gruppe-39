@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 
 import App from './App';
-import Header from './App.js';
+import { Header } from './App.js';
 import TodoApp from './todo/TodoApp.js';
 import TodoForm from './todo/TodoForm.js';
 import TodoList from './todo/TodoList.js';
@@ -21,12 +21,26 @@ global.render = render;
 global.mount = mount;
 // Fail tests on any warning
 
+const todoItems = [{
+    title:"test0",
+    desc:"test0 dec",
+    type:"spare time",
+    start:"2017-10-17T00:00:00.000Z",
+    end:"2017-10-18T00:00:00.000Z",
+    id:1
+}];
+
+const props = {
+    todoItems
+};
+
 console.error = message => {
     throw new Error(message);
 };
 
 
 it('renders without crashing', () => {
+    console.log(props)
     const div = document.createElement('div');
     ReactDOM.render(<App />, div);
 });
@@ -40,13 +54,6 @@ describe('<App />', () => {
     it('Checks that only one instance of App is renderd', () => {
         const wrapper = shallow(<App />);
         expect(wrapper.find('.App')).to.have.length(1);
-    });
-
-    it('simulates click events', () => {
-        const onButtonClick = sinon.spy();
-        const wrapper = shallow(<App onButtonClick={onButtonClick} />);
-        wrapper.find(navList[0]).simulate('click');
-        expect(onButtonClick.calledOnce).to.equal(true);
     });
 });
  
@@ -73,9 +80,10 @@ describe('Smoke tests:', () => {
         const div = document.createElement('div');
         ReactDOM.render(<App />, div);
     });
+
     it('Smoke test: TodoApp renders without crashing', () => {
         const div = document.createElement('div');
-        ReactDOM.render(<TodoApp />, div);
+        ReactDOM.render(<TodoApp {...props} />, div);
     });
 });
 
@@ -83,13 +91,15 @@ describe('Shallow tests:', () => {
     it('Shallow test: renders App without crashing', () => {
         shallow(<App />);
     });
+
     it('App contains a div with classname "App"', ()=>{
         const wrapper = shallow(<App />);
-        expect(wrapper.find('div').hasClass('App')).toEqual(true);
+        expect(wrapper.find('div').hasClass('App'));
     });
+
     it('Shallow test: render TodoApp without crashing', () => {
-        const wrapper = shallow(<TodoApp />);
-        expect(wrapper.find('div').hasClass('todoAppCont')).toEqual(true);
+        const wrapper = shallow(<TodoApp {...props} />);
+        expect(wrapper.find('div').hasClass('todoAppCont'));
     });
 });
 
