@@ -1,4 +1,4 @@
-import 'jest-enzyme'
+import 'jest-enzyme';
 
 const localStorageMock = {
   getItem: jest.fn(),
