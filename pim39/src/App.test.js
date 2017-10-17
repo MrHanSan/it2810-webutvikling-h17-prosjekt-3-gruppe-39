@@ -34,8 +34,18 @@ const todoItems = [{
     id:1
 }];
 
+const eventItems = [{
+    'title': 'Heldags',
+    'start': new Date(2017, 9, 3, 8),
+    'end': new Date(2017, 9, 3, 9),
+    'allDay': true
+}];
+
+const items = [{"title":"Test","desc":"test desc","id":1}]
+
 const props = {
-    todoItems
+    todoItems,
+    eventItems,
 };
 
 console.error = message => {
@@ -83,21 +93,15 @@ describe('Smoke tests:', () => {
         const div = document.createElement('div');
         ReactDOM.render(<TodoApp {...props} />, div);
     });
+
     it('Smoke test: TodoForm renders without crashing', () => {
         const div = document.createElement('div');
         ReactDOM.render(<TodoForm {...props} />, div);
     });
-    it('Smoke test: TodoList renders without crashing', () => {
-        const div = document.createElement('div');
-        ReactDOM.render(<TodoList {...props} />, div);
-    });
+
     it('Smoke test: Calendar renders without crashing', () => {
         const div = document.createElement('div');
         ReactDOM.render(<Calendar {...props} />, div);
-    });
-    it('Smoke test: NotesApp renders without crashing', () => {
-        const div = document.createElement('div');
-        ReactDOM.render(<NotesApp />, div);
     });
 });
 
@@ -129,11 +133,6 @@ describe('Shallow tests:', () => {
             const wrapper = shallow(<Calendar {...props} />);
             expect(wrapper.find('div').hasClass('calendar_container'));
         });
-
-        it('Shallow test: NotesApp renders without crashing', () => {
-            const wrapper = shallow(<NotesApp />);
-            expect(wrapper.find('div').hasClass('notesApp'));
-        });
     });
 
 
@@ -159,12 +158,6 @@ describe('Shallow tests:', () => {
             it('Mount test: Calendar renders without crashing', () => {
                 const wrapper = mount(<Calendar {...props} />);
                 expect(wrapper.find('div').hasClass('calendar_container'));
-                wrapper.unmount();
-            });
-
-            it('Mount test: NotesApp renders without crashing', () => {
-                const wrapper = mount(<NotesApp />);
-                expect(wrapper.find('div').hasClass('notesApp'));
                 wrapper.unmount();
             });
         });
